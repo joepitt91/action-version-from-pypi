@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2025 Joe Pitt
+#
+# SPDX-License-Identifier: GPL-3.0-only
+
+---
+name: Get Current Version from PyPI Module
+author: Joe Pitt
+description: Get the current version of the specified PIP module.
+inputs:
+  module:
+    description: The module to check.
+    required: true
+outputs:
+  version:
+    description: The current version of the module.
+    value: ${{ steps.get_version.outputs.version }}
+runs:
+  using: composite
+  steps:
+  - name: Install Dependencies
+    id: dependencies
+    run: pip install --quiet --upgrade -r ${{ github.action_path }}/requirements.txt
+    shell: bash
+  - name: Get Current Version
+    id: get_version
+    env:
+      GITHUB_ACTION_PATH: ${{ github.action_path }}
+      INPUT_module: ${{ inputs.module }}
+    shell: python
+    run: |
+      from os import getenv
+      from get_latest_version.pypi import get_current_module_version
+
+      version = get_current_module_version(getenv("INPUT_module"))
+
+      with open(getenv("GITHUB_OUTPUT"), "a", encoding="utf-8") as f:
+          f.write(f"version={version}\n")
+  - name: Print Digest
+    id: print
+    run: |
+      echo "Latest Version: ${{ inputs.module }}==${{ steps.get_version.outputs.version }}"
+    shell: bash
+branding:
+  color: blue
+  icon: disc
