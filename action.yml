@@ -17,10 +17,6 @@ outputs:
 runs:
   using: composite
   steps:
-  - name: Install Dependencies
-    id: dependencies
-    run: pip3 install --quiet --upgrade -r ${{ github.action_path }}/requirements.txt
-    shell: bash
   - name: Get Current Version
     id: get_version
     env:
@@ -29,6 +25,11 @@ runs:
     shell: python
     run: |
       from os import getenv
+      from os.path import abspath, join
+      import sys
+
+      sys.path.insert(1,abspath(join(getenv("GITHUB_ACTION_PATH"), "lib")))
+
       from get_latest_version.pypi import get_current_module_version
 
       version = get_current_module_version(getenv("INPUT_module"))
