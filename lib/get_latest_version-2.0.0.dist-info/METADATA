@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: get_latest_version
-Version: 1.0.3
+Version: 2.0.0
 Summary: Python module to get the latest version for various package types.
 Author-email: Joe Pitt <joe.pitt@joepitt.co.uk>
 License-Expression: GPL-3.0-only
@@ -14,11 +14,12 @@ Classifier: Topic :: Software Development
 Classifier: Topic :: Software Development :: Build Tools
 Classifier: Topic :: Software Development :: Version Control
 Classifier: Typing :: Typed
-Requires-Python: ~=3.8
+Requires-Python: ~=3.9
 Description-Content-Type: text/markdown
 License-File: LICENSE
+Requires-Dist: defusedxml~=0.7.1
+Requires-Dist: requests~=2.32.5
 Requires-Dist: semver~=3.0.4
-Requires-Dist: requests~=2.32.3
 Dynamic: license-file
 
 <!--
